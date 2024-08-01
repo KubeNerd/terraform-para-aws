@@ -1,9 +1,5 @@
 # Introdução
 
-## Documentação central da AWS
-Acesse: https://docs.aws.amazon.com/
-
-
 1. Criação de conta na AWS
    - Vamos usar o free tier, mas é provável que tenhamos alguma pequena cobrança de uso de serviços da AWS que não são contemplados pelo  free tier.
 
@@ -47,11 +43,49 @@ Acesse: https://docs.aws.amazon.com/
 
 
 
-## Arquitetura do Projeto
+# Arquitetura do Projeto
 
 ## Visão Geral
 
 A arquitetura do projeto consiste em uma VPC na região `us-east`, com duas zonas de disponibilidade (`us-east-1a` e `us-east-1b`). Cada zona de disponibilidade possui uma sub-rede privada e uma sub-rede pública. As sub-redes públicas contêm um Nat Gateway (NGW) e são conectadas a um Internet Gateway (IGW). As sub-redes privadas são conectadas às sub-redes públicas através do Nat Gateway.
+
+
+## Revisão
+VPC (Virtual Private Cloud)
+  A VPC é o contêiner principal que engloba todos os recursos de rede, como subnets, gateways e load balancers. Dentro da VPC, os recursos podem se comunicar entre si, conforme as regras de roteamento e segurança definidas.
+
+IGW (Internet Gateway)
+  Função: Permitir que os recursos dentro da VPC se comuniquem com a Internet.
+Comunicação:
+  Subnets públicas dentro da VPC têm rotas direcionadas ao IGW para permitir a comunicação com a Internet.
+    Recursos nas subnets públicas, como instâncias EC2 com IPs públicos, podem se comunicar diretamente com a Internet através do IGW.
+  NGW (NAT Gateway)
+    Função: Permitir que recursos em subnets privadas tenham acesso à Internet de saída sem expor seus endereços IP privados.
+Comunicação:
+Subnets privadas têm rotas direcionadas ao NGW para acesso à Internet.
+O NGW se comunica com o IGW para permitir a saída para a Internet.
+Recursos em subnets privadas (como instâncias EC2 sem IPs públicos) usam o NGW para acessar a Internet para atualizações de software ou downloads, por exemplo.
+ALB (Application Load Balancer)
+Função: Distribuir o tráfego de aplicações (HTTP/HTTPS) entre várias instâncias de backend para balancear a carga e melhorar a disponibilidade.
+Comunicação:
+Recebe tráfego da Internet ou de outras fontes (se configurado em subnets públicas) e distribui para instâncias EC2 ou outros recursos em subnets públicas ou privadas.
+Pode se comunicar com o IGW diretamente se estiver em uma subnet pública.
+NLB (Network Load Balancer)
+Função: Distribuir tráfego de rede de baixo nível (TCP, UDP) com alta performance e baixa latência entre instâncias de backend.
+Comunicação:
+Recebe tráfego da Internet ou de outras fontes e distribui para instâncias EC2 ou outros recursos em subnets públicas ou privadas.
+Pode se comunicar com o IGW diretamente se estiver em uma subnet pública.
+Exemplo de Comunicações:
+Internet para VPC:
+IGW: Permite que o tráfego da Internet chegue a subnets públicas.
+ALB/NLB: Distribuem o tráfego de entrada da Internet para instâncias EC2 ou outros recursos.
+VPC para Internet:
+IGW: Permite que os recursos com IPs públicos em subnets públicas enviem tráfego para a Internet.
+NGW: Permite que os recursos em subnets privadas enviem tráfego de saída para a Internet.
+Intercomunicação dentro da VPC:
+Subnets privadas e públicas podem se comunicar diretamente com base nas regras de roteamento e políticas de segurança definidas.
+ALB pode distribuir o tráfego de subnets públicas para instâncias em subnets privadas, permitindo acesso controlado a recursos internos.
+
 
 
 
@@ -142,99 +176,3 @@ Outros conceitos de redes: https://aws.amazon.com/pt/products/networking/
 ## Artigos
    AWS — Difference between Internet Gateway and NAT Gateway
       - https://medium.com/awesome-cloud/aws-vpc-difference-between-internet-gateway-and-nat-gateway-c9177e710af6
-
-
-## Revisão
-
-### VPC (Virtual Private Cloud)
-
-A VPC é o contêiner principal que engloba todos os recursos de rede, como subnets, gateways e load balancers. Dentro da VPC, os recursos podem se comunicar entre si, conforme as regras de roteamento e segurança definidas.
-
-### IGW (Internet Gateway)
-
-**Função:** Permitir que os recursos dentro da VPC se comuniquem com a Internet.
-
-**Comunicação:**
-- Subnets públicas dentro da VPC têm rotas direcionadas ao IGW para permitir a comunicação com a Internet.
-- Recursos nas subnets públicas, como instâncias EC2 com IPs públicos, podem se comunicar diretamente com a Internet através do IGW.
-
-### NGW (NAT Gateway)
-
-**Função:** Permitir que recursos em subnets privadas tenham acesso à Internet de saída sem expor seus endereços IP privados.
-
-**Comunicação:**
-- Subnets privadas têm rotas direcionadas ao NGW para acesso à Internet.
-- O NGW se comunica com o IGW para permitir a saída para a Internet.
-- Recursos em subnets privadas (como instâncias EC2 sem IPs públicos) usam o NGW para acessar a Internet para atualizações de software ou downloads, por exemplo.
-
-### ALB (Application Load Balancer)
-
-**Função:** Distribuir o tráfego de aplicações (HTTP/HTTPS) entre várias instâncias de backend para balancear a carga e melhorar a disponibilidade.
-
-**Comunicação:**
-- Recebe tráfego da Internet ou de outras fontes (se configurado em subnets públicas) e distribui para instâncias EC2 ou outros recursos em subnets públicas ou privadas.
-- Pode se comunicar com o IGW diretamente se estiver em uma subnet pública.
-
-### NLB (Network Load Balancer)
-
-**Função:** Distribuir tráfego de rede de baixo nível (TCP, UDP) com alta performance e baixa latência entre instâncias de backend.
-
-**Comunicação:**
-- Recebe tráfego da Internet ou de outras fontes e distribui para instâncias EC2 ou outros recursos em subnets públicas ou privadas.
-- Pode se comunicar com o IGW diretamente se estiver em uma subnet pública.
-
-### Exemplo de Comunicações
-
-**Internet para VPC:**
-- **IGW:** Permite que o tráfego da Internet chegue a subnets públicas.
-- **ALB/NLB:** Distribuem o tráfego de entrada da Internet para instâncias EC2 ou outros recursos.
-
-**VPC para Internet:**
-- **IGW:** Permite que os recursos com IPs públicos em subnets públicas enviem tráfego para a Internet.
-- **NGW:** Permite que os recursos em subnets privadas enviem tráfego de saída para a Internet.
-
-**Intercomunicação dentro da VPC:**
-- Subnets privadas e públicas podem se comunicar diretamente com base nas regras de roteamento e políticas de segurança definidas.
-- ALB pode distribuir o tráfego de subnets públicas para instâncias em subnets privadas, permitindo acesso controlado a recursos internos.
-
-
-## CIDR: Explicação Simples
-
-## O que é CIDR?
-CIDR (Classless Inter-Domain Routing) é um método para organizar endereços IP e melhorar a eficiência do roteamento na Internet.
-
-## Como funciona?
-Em vez de usar as antigas classes de rede (A, B, C), o CIDR permite dividir o espaço de endereços IP de maneira mais flexível. Isso é feito usando uma notação que inclui o endereço IP seguido por uma barra ("/") e um número que representa quantos bits são usados para a rede.
-
-### Exemplos:
-
-- **192.168.0.0/24**: 
-  - Significa que os primeiros 24 bits (192.168.0) são a parte da rede.
-  - Os últimos 8 bits (0-255) são para hosts, ou seja, dispositivos na rede.
-
-- **10.0.0.0/8**:
-  - Os primeiros 8 bits (10) são a parte da rede.
-  - Os últimos 24 bits são para hosts.
-
-## Vantagens do CIDR
-- **Eficiência**: Melhora o uso dos endereços IP.
-- **Escalabilidade**: Facilita o crescimento das redes.
-- **Roteamento Simplificado**: Menos entradas nas tabelas de roteamento.
-
-## Como ler um endereço CIDR?
-1. **Endereço IP**: A parte antes da barra indica a rede.
-2. **Máscara de Sub-rede**: O número após a barra (prefixo) indica quantos bits são fixos para a rede.
-
-### Exemplos Detalhados:
-
-- **172.16.0.0/16**:
-  - Rede: 172.16.
-  - Hosts: 0.0 - 255.255 (total de 65.536 endereços possíveis).
-
-- **192.168.1.0/24**:
-  - Rede: 192.168.1.
-  - Hosts: 0-255 (total de 256 endereços possíveis).
-
-## Comparação com Sub-redes Tradicionais
-- Sub-redes tradicionais usam máscaras como 255.255.255.0.
-- No CIDR, usamos a notaç
