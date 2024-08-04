@@ -1,4 +1,4 @@
-# Introdução
+# Introdução a AWS
 
 ## Documentação central da AWS
 Acesse: https://docs.aws.amazon.com/
@@ -203,7 +203,7 @@ A VPC é o contêiner principal que engloba todos os recursos de rede, como subn
 ## O que é CIDR?
 CIDR (Classless Inter-Domain Routing) é um método para organizar endereços IP e melhorar a eficiência do roteamento na Internet.
 
-## Como funciona?
+### Como funciona?
 Em vez de usar as antigas classes de rede (A, B, C), o CIDR permite dividir o espaço de endereços IP de maneira mais flexível. Isso é feito usando uma notação que inclui o endereço IP seguido por uma barra ("/") e um número que representa quantos bits são usados para a rede.
 
 ### Exemplos:
@@ -225,7 +225,7 @@ Em vez de usar as antigas classes de rede (A, B, C), o CIDR permite dividir o es
 1. **Endereço IP**: A parte antes da barra indica a rede.
 2. **Máscara de Sub-rede**: O número após a barra (prefixo) indica quantos bits são fixos para a rede.
 
-### Exemplos Detalhados:
+## Exemplos Detalhados:
 
 - **172.16.0.0/16**:
   - Rede: 172.16.
@@ -235,6 +235,96 @@ Em vez de usar as antigas classes de rede (A, B, C), o CIDR permite dividir o es
   - Rede: 192.168.1.
   - Hosts: 0-255 (total de 256 endereços possíveis).
 
-## Comparação com Sub-redes Tradicionais
+### Comparação com Sub-redes Tradicionais
 - Sub-redes tradicionais usam máscaras como 255.255.255.0.
 - No CIDR, usamos a notaç
+
+
+## Criação da VPC e Subnets
+   - Criamos 1 VPC. 
+   - Criamos também 4 subnets. Sendo que 2 subnets privadas e 2 subnets publicas.
+
+      - Subnets privadas:
+         - devops-subnet-priv-1a - Availability Zone us-east-1a
+         - devops-subnet-pub-a1  - Availability Zone us-east-1a
+      
+      - Subnets publicas:
+         - devops-subnet-priv-1b - Availability Zone us-east-1b
+         - devops-subnet-pub-1b  - Availability Zone us-east-1b
+
+   - Adicionamos as tags tanto para subnet púbica quanto para subnet privada. Seguindo a documentação.
+     - doc: https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html
+
+   ![alt text](img/vpc_and_subnets.png)
+
+
+## Route Table e sua Relação com o IGW
+
+### O que é uma Route Table?
+
+Uma Route Table (Tabela de Rotas) em uma rede de computação em nuvem, como a AWS, é um conjunto de regras (ou rotas) que determinam para onde o tráfego de rede deve ser direcionado. Cada sub-rede em uma VPC deve ser associada a uma route table, que especifica como os pacotes de rede serão encaminhados dentro da rede e para fora dela.
+
+### Componentes de uma Route Table
+
+- **Destination (Destino)**: Especifica o intervalo de endereços IP para os quais a rota é válida.
+- **Target (Alvo)**: Define para onde o tráfego para o destino especificado deve ser direcionado. Pode ser uma instância, gateway, NAT, IGW, etc.
+- **Status**: Indica o estado da rota (ativa ou inativa).
+
+### O que é um IGW?
+
+IGW (Internet Gateway) é um componente que permite a comunicação entre instâncias dentro de uma VPC e a internet. É um gateway horizontalmente escalável, redundante e altamente disponível, que permite que o tráfego de entrada e saída da internet flua para e da sua VPC.
+
+### Funcionalidades do IGW
+
+- **Conectividade com a Internet**: Permite que instâncias em uma sub-rede pública se comuniquem com a internet.
+- **Escalabilidade**: Capaz de lidar com altos volumes de tráfego de rede.
+- **Alta Disponibilidade**: Construído para ser altamente disponível e resistente a falhas.
+
+### Relação entre Route Table e IGW
+
+Para que as instâncias em uma sub-rede pública possam acessar a internet, é necessário configurar corretamente a route table associada a essa sub-rede. A route table deve conter uma rota que direcione o tráfego de saída (com destino à internet) para o IGW. Sem essa configuração, as instâncias não conseguirão se comunicar com a internet, mesmo que estejam em uma sub-rede pública.
+
+### Configuração de uma Route Table com IGW
+
+Para configurar uma route table para permitir o tráfego de internet, siga os seguintes passos:
+
+1. **Criar um IGW**:
+   ```sh
+   aws ec2 create-internet-gateway --region [região]
+   ```
+
+2. **Anexar o IGW à VPC**:
+   ```sh
+      aws ec2 attach-internet-gateway --internet-gateway-id [IGW_ID] --vpc-id [VPC_ID]
+
+   ```
+
+
+### Managed Node  group
+https://docs.aws.amazon.com/eks/latest/userguide/create-node-role.html
+
+
+### IAM OIDC
+https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html
+
+### AWS Load Balancer Controller
+
+https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html
+
+
+
+# Terraform
+
+### Instalação do Terraform
+
+https://developer.hashicorp.com/terraform/install
+
+
+### Terraform workflow
+
+https://developer.hashicorp.com/terraform/intro/core-workflow
+
+
+### Github Configurações
+
+https://mateusmuller.me/2019/09/25/como-configurar-o-github-para-nao-pedir-senha-a-cada-push/
