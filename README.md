@@ -328,3 +328,36 @@ https://developer.hashicorp.com/terraform/intro/core-workflow
 ### Github Configurações
 
 https://mateusmuller.me/2019/09/25/como-configurar-o-github-para-nao-pedir-senha-a-cada-push/
+
+
+
+### Providers
+https://registry.terraform.io/browse/providers
+
+
+### Resource VPC
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc
+
+
+### Terraform state
+https://developer.hashicorp.com/terraform/language/state
+
+### Terraform remote state
+
+https://developer.hashicorp.com/terraform/language/settings/backends/s3
+
+
+### Migrando state local para a nuvem
+
+```sh
+   terraform init  -migrate-state 
+   # Ou
+   terraform init -migrate-state -backend-config=development.conf
+```
+
+
+### Terraform com pre-commit
+
+https://github.com/antonbabenko/pre-commit-terraform
+
+https://pre-commit.com/
