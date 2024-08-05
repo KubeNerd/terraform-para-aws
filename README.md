@@ -361,3 +361,28 @@ https://developer.hashicorp.com/terraform/language/settings/backends/s3
 https://github.com/antonbabenko/pre-commit-terraform
 
 https://pre-commit.com/
+
+
+### Terraform console
+https://developer.hashicorp.com/terraform/language/functions
+
+
+### Terraform Data Source - AWS Region
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region
+
+### Terraform tags subnets
+
+https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region
+
+### Terraform merge - Unificar multiplas tags
+
+https://developer.hashicorp.com/terraform/language/functions/merge
+
+```hcl
+  tags = merge(
+    local.tags,
+    {
+      Name = "Novas tags aqui"
+    }
+  )
+```
