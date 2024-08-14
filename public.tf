@@ -29,3 +29,9 @@ resource "aws_subnet" "eks_subnet_pub_1b" {
     }
   )
 }
+
+
+resource "aws_route_table_association" "eks_rtb_assoc_a1" {
+  subnet_id      = aws_subnet.eks_subnet_pub_1a.id
+  route_table_id = aws_route_table.eks_public_router_table.id
+}
