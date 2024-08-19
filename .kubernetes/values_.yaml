@@ -1,0 +1,30 @@
+# # Configurações de imagem
+# image:
+#   repository: runatlantis/atlantis
+#   tag: v0.18.4
+
+# # Configurações principais do Atlantis
+# # config:
+# #   atlantis-url: "http://atlantis.your-domain.com"  # Atualize com a URL do Atlantis
+# #   allow-repo-config: true
+# #   default-tf-version: "1.0.11"
+# #   repo-whitelist: "github.com/KubeNerd/*"
+
+# # Configurações do GitHub
+# github:
+#   secretName: atlantis-secrets  # Nome do Secret onde o token do GitHub está armazenado
+#   tokenKey: token  # Chave dentro do Secret para o token
+#   user: kube_nerd  # Nome de usuário do bot GitHub Atlantis
+#   # webhookSecret: "your-webhook-secret"  # Secret para validar webhooks (opcional)
+#   organization: KubeNerd  # Nome da organização no GitHub
+
+# # Serviço no Kubernetes
+# serviceAccount:
+#   create: true
+
+# # Ingress (opcional)
+# ingress:
+#   enabled: false
+
+# # Configurações de logs (opcional)
+# logLevel: info
