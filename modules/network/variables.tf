@@ -10,6 +10,6 @@ variable "project_name" {
 }
 
 variable "tags" {
-  type        = map(any)
-  description = "A map of tags to add to all AWS resources"
+  type        = map
+  description = "Tags to be added to AWS resources"
 }
