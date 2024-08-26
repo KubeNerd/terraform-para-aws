@@ -6,5 +6,4 @@ variable "tags" {
 variable "project_name" {
   type        = string
   description = "Project Name to be used to name the resources (Name tag)"
-
 }

@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "eks_s3" {
-  bucket = "eks-bucket-logs-${var.project_name}"
+  bucket = "${var.project_name}-eks-bucket-logs"
 
   tags = merge(
     var.tags,
