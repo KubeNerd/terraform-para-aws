@@ -1,4 +1,4 @@
-resource "aws_eks_cluster" "example" {
+resource "aws_eks_cluster" "aws_eks_cluster" {
   name     = "${var.project_name}-cluster"
   role_arn = aws_iam_role.eks_cluster_role.arn
 
@@ -9,4 +9,11 @@ resource "aws_eks_cluster" "example" {
   depends_on = [
     aws_iam_role_policy_attachment.eks_cluster_role_attachment,
   ]
+
+  tags = merge(
+    var.tags,
+    {
+      Name = "${var.project_name}-cluster"
+    }
+  )
 }
