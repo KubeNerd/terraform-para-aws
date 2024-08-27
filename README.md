@@ -391,3 +391,8 @@ https://developer.hashicorp.com/terraform/language/functions/merge
 ### Terraform Modules
 
 https://developer.hashicorp.com/terraform/language/modules/develop
+
+
+### OIDC Provider
+
+https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc_verify-thumbprint.html
