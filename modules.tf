@@ -21,3 +21,12 @@ module "eks_s3" {
   tags         = local.tags
   project_name = var.project_name
 }
+
+
+module "eks_managed_node_group" {
+  source       = "./modules/eks_managed_node_group"
+  tags         = local.tags
+  project_name = var.project_name
+
+}
+
