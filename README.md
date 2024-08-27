@@ -396,3 +396,14 @@ https://developer.hashicorp.com/terraform/language/modules/develop
 ### OIDC Provider
 
 https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc_verify-thumbprint.html
+
+### Configurando kubectl
+```sh
+aws eks update-kubeconfig --region us-east-1 --name [cluster-name]
+```
+
+
+### MNG
+
+Referência https://docs.aws.amazon.com/pt_br/eks/latest/userguide/create-node-role.html
+
