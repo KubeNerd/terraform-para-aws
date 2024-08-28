@@ -16,11 +16,6 @@ module "eks_cluster" {
   public_subnet_1b = module.eks_network.subnet_pub_1b
 }
 
-module "eks_s3" {
-  source       = "./modules/eks_s3"
-  tags         = local.tags
-  project_name = var.project_name
-}
 
 
 module "eks_managed_node_group" {
@@ -28,5 +23,15 @@ module "eks_managed_node_group" {
   tags         = local.tags
   project_name = var.project_name
 
+  # Novamente usando a dependência entre módulos
+  cluster_name      = module.eks_cluster.cluster_name
+  private_subnet_1a = module.eks_network.subnet_priv_1a
+  private_subnet_1b = module.eks_network.subnet_priv_1b
+
 }
 
+module "eks_s3" {
+  source       = "./modules/eks_s3"
+  tags         = local.tags
+  project_name = var.project_name
+}
