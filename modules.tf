@@ -1,8 +1,8 @@
-module "s3" {
-  source       = "./modules/s3"
-  tags         = local.tags
-  project_name = var.project_name
-}
+# module "s3" {
+#   source       = "./modules/s3"
+#   tags         = local.tags
+#   project_name = var.project_name
+# }
 
 module "network" {
   source       = "./modules/network"
@@ -40,5 +40,8 @@ module "managed_node_group" {
 module "aws_load_balancer_controller" {
   source = "./modules/aws_load_balancer_controller"
   project_name = var.project_name
+  # Novamente usando a dependência entre módulos para pegar o oidc
+  oidc = module.cluster.oidc
   tags  = local.tags
+  cluster_name = module.cluster.cluster_name
 }

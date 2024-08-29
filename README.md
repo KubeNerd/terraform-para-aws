@@ -403,7 +403,19 @@ aws eks update-kubeconfig --region us-east-1 --name [cluster-name]
 ```
 
 
-### MNG
+### MNG - Managed Node Group role
 
 Referência https://docs.aws.amazon.com/pt_br/eks/latest/userguide/create-node-role.html
 
+
+### Load Balancer Controller
+https://docs.aws.amazon.com/pt_br/eks/latest/userguide/aws-load-balancer-controller.html
+
+
+### Terraform Kubernetes Provider
+
+https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs
+
+
+### Terraform docs
+https://terraform-docs.io/user-guide/installation/#pre-compiled-binary
