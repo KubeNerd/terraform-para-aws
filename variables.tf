@@ -13,7 +13,7 @@ variable "region" {
   description = "AWS region to create the resources"
 }
 
-# variable "tags" {
-#   type        = map(any)
-#   description = "A map of tags to add to all AWS resources"
-# }
+variable "tags" {
+  type        = map(any)
+  description = "A map of tags to add to all AWS resources"
+}

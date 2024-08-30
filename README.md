@@ -417,5 +417,5 @@ https://docs.aws.amazon.com/pt_br/eks/latest/userguide/aws-load-balancer-control
 https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs
 
 
-### Terraform docs
+### Terraform docs - Documentação automática para Terraform
 https://terraform-docs.io/user-guide/installation/#pre-compiled-binary

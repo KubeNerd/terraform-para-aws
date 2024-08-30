@@ -1,21 +1,21 @@
-# module "s3" {
-#   source       = "./modules/s3"
-#   tags         = local.tags
-#   project_name = var.project_name
-# }
+module "s3" {
+  source       = "./modules/s3"
+  tags         = var.tags
+  project_name = var.project_name
+}
 
 module "network" {
   source       = "./modules/network"
   cidr_block   = var.cidr_block
   project_name = var.project_name
-  tags         = local.tags
+  tags         = var.tags
 }
 
 
 module "cluster" {
   source       = "./modules/cluster"
   project_name = var.project_name
-  tags         = local.tags
+  tags         = var.tags
 
   # Dependência entre módulos
   public_subnet_1a = module.network.subnet_pub_1a
@@ -26,7 +26,7 @@ module "cluster" {
 
 module "managed_node_group" {
   source       = "./modules/managed_node_group"
-  tags         = local.tags
+  tags         = var.tags
   project_name = var.project_name
 
   # Novamente usando a dependência entre módulos
@@ -38,10 +38,10 @@ module "managed_node_group" {
 
 
 module "aws_load_balancer_controller" {
-  source = "./modules/aws_load_balancer_controller"
+  source       = "./modules/aws_load_balancer_controller"
   project_name = var.project_name
   # Novamente usando a dependência entre módulos para pegar o oidc
-  oidc = module.cluster.oidc
-  tags  = local.tags
+  oidc         = module.cluster.oidc
+  tags         = var.tags
   cluster_name = module.cluster.cluster_name
 }

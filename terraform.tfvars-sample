@@ -1,0 +1,9 @@
+cidr_block   = ""
+project_name = ""
+region       = ""
+tags = {
+  Departament  = ""
+  Organization = ""
+  Project      = ""
+  Environment  = ""
+}
