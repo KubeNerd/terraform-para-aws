@@ -16,12 +16,6 @@ terraform {
     }
   }
 
-  backend "s3" {
-    bucket = "devopsterraformstateconfig"
-    key    = "dev/terraform.state"
-    region = "us-east-1"
-  }
-
 }
 
 provider "aws" {
